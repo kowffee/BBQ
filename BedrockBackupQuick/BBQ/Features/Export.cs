@@ -6,24 +6,22 @@ namespace BBQ.Features
 {
     internal class Export
     {
-        private static string LSPath = Path.Combine(Program.MinecraftPackageDirectory, "LocalState");
-
         internal static void ExportBackup()
         {
             DateTime dtNow = DateTime.Now;
             string ZipFormat = $"{dtNow.Year}-{dtNow.Month}-{dtNow.Day}_{dtNow.Hour}{dtNow.Minute}{dtNow.Second}-LocalStateBackup.zip";
-            Print("Beginning Export, this may take a few minutes.", Yellow);
 
+            Print("Beginning Export, this may take a few minutes.", Yellow);
             try
             {
                 Stopwatch zipTime = Stopwatch.StartNew();
-                System.IO.Compression.ZipFile.CreateFromDirectory(LSPath, Path.Combine(Program.AppDir, "BbqData", ZipFormat));
+                System.IO.Compression.ZipFile.CreateFromDirectory(Program.LSPath, Path.Combine(Program.AppDir, "BbqData", ZipFormat));
                 zipTime.Stop();
-                Print($"({zipTime.Elapsed.TotalSeconds}s) Backup created at {Path.Combine(Program.AppDir, "BbqData", ZipFormat)}.", Green);
+                Print($"({zipTime.Elapsed.Seconds}s) Backup created at {Path.Combine(Program.AppDir, "BbqData", ZipFormat)}.", Yellow);
             } catch (Exception e)
             {
                 Print($"Backup failed, error printed below:\n{e.Message}", Red);
-                UserInput("Press enter to close.");
+                UserInput("Press enter to close.", Yellow);
                 Environment.Exit(0);
             }
 

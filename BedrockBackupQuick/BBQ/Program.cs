@@ -7,6 +7,7 @@ namespace BBQ
     internal class Program
     {
         internal static string MinecraftPackageDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Packages", "Microsoft.MinecraftUWP_8wekyb3d8bbwe");
+        internal static string LSPath = Path.Combine(MinecraftPackageDirectory, "LocalState");
         internal static string AppDir = AppDomain.CurrentDomain.BaseDirectory;
 
         static void Main(string[] args)
