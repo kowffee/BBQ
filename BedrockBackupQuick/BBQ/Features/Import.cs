@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO.Compression;
 using static System.ConsoleColor;
 using static BBQ.Utils.ConsoleUtil;
 
@@ -36,18 +37,43 @@ namespace BBQ.Features
                 }
             }
 
-
             Print("Beginning Import, this may take a few minutes.", Yellow);
+            // it has to be like this otherwise random errors (like no permission) will cancel the extraction. I'm cri
             try
             {
                 Stopwatch importTimer = Stopwatch.StartNew();
-                System.IO.Compression.ZipFile.ExtractToDirectory(importFile, Program.LSPath, true);
+
+                using (ZipArchive archive = ZipFile.OpenRead(importFile))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        try
+                        {
+                            string entryPath = Path.Combine(Program.LSPath, entry.FullName);
+
+                            // Check if the entry represents a directory
+                            if (entry.FullName.EndsWith("/") || entry.FullName.EndsWith("\\"))
+                            {
+                                Directory.CreateDirectory(entryPath);
+                            }
+                            else
+                            {
+                                entry.ExtractToFile(entryPath, true);
+                            }
+                        }
+                        catch (UnauthorizedAccessException unauthorizedEx)
+                        {
+                            Print($"Access to the path is denied for {entry.FullName}: {unauthorizedEx.Message}", Red);
+                        }
+                        catch (Exception ex)
+                        {
+                            Print($"Failed to extract {entry.FullName}: {ex.Message}", Red);
+                        }
+                    }
+                }
+
                 importTimer.Stop();
                 Print($"Done in {importTimer.Elapsed.Seconds} seconds.", Yellow);
-            }
-            catch (UnauthorizedAccessException unauthorizedEx)
-            {
-                Print($"Access to the path is denied:\n{unauthorizedEx.Message}", DarkYellow);
             }
             catch (Exception ex)
             {
