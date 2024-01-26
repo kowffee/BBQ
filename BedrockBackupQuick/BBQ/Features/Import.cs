@@ -44,7 +44,12 @@ namespace BBQ.Features
                 System.IO.Compression.ZipFile.ExtractToDirectory(importFile, Program.LSPath, true);
                 importTimer.Stop();
                 Print($"Done in {importTimer.Elapsed.Seconds} seconds.", Yellow);
-            } catch (Exception ex)
+            }
+            catch (UnauthorizedAccessException unauthorizedEx)
+            {
+                Print($"Access to the path is denied: {unauthorizedEx.Message}", DarkYellow);
+            }
+            catch (Exception ex)
             {
                 Print($"Import failed, error printed below:\n{ex.Message}", Red);
                 UserInput("Press enter to close.", Yellow);
