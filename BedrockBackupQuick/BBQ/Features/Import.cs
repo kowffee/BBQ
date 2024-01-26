@@ -41,7 +41,7 @@ namespace BBQ.Features
             try
             {
                 Stopwatch importTimer = Stopwatch.StartNew();
-                System.IO.Compression.ZipFile.ExtractToDirectory(importFile, Program.LSPath);
+                System.IO.Compression.ZipFile.ExtractToDirectory(importFile, Program.LSPath, true);
                 importTimer.Stop();
                 Print($"Done in {importTimer.Elapsed.Seconds} seconds.", Yellow);
             } catch (Exception ex)
