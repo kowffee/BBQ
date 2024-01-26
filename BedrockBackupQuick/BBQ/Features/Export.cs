@@ -19,15 +19,15 @@ namespace BBQ.Features
                 Stopwatch zipTime = Stopwatch.StartNew();
                 System.IO.Compression.ZipFile.CreateFromDirectory(LSPath, Path.Combine(Program.AppDir, "BbqData", ZipFormat));
                 zipTime.Stop();
-                Print($"({zipTime.Elapsed.TotalSeconds}s) Backup created at {Path.Combine(Program.AppDir, "BbqData", ZipFormat)}", Green);
+                Print($"({zipTime.Elapsed.TotalSeconds}s) Backup created at {Path.Combine(Program.AppDir, "BbqData", ZipFormat)}.", Green);
             } catch (Exception e)
             {
                 Print($"Backup failed, error printed below:\n{e.Message}", Red);
-                UserInput("Press enter to close");
+                UserInput("Press enter to close.");
                 Environment.Exit(0);
             }
 
-            UserInput("Done, you may now exit", Green);
+            UserInput("Done, you may now exit.", Green);
         }
     }
 }

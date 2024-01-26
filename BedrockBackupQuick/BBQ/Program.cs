@@ -15,8 +15,8 @@ namespace BBQ
 
             if (!Files.CheckIfMcDirectoryExists())
             {
-                Print($"Could not find the Minecraft package folder at {MinecraftPackageDirectory}", Red);
-                UserInput("Press Enter to close", Red);
+                Print($"Could not find the Minecraft package folder at {MinecraftPackageDirectory}.", Red);
+                UserInput("Press Enter to close.", Red);
                 Environment.Exit(0);
             }
             Directory.CreateDirectory(Path.Combine(AppDir, "BbqData"));

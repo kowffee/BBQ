@@ -7,7 +7,8 @@ namespace BBQ.Features
     {
         internal static void ImportBackup()
         {
-            Print("Beginning Import", Yellow);
+            Print("Beginning Import, this may take a few minutes.", Yellow);
+
         }
     }
 }
