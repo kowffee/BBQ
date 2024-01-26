@@ -24,7 +24,7 @@ namespace BBQ
             while (true)
             {
                 string? choice = UserInput("Would you like to import or export?");
-                switch (choice)
+                switch (choice.ToLower())
                 {
                     case "import":
                         Features.Import.ImportBackup();
