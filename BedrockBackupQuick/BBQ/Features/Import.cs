@@ -47,7 +47,7 @@ namespace BBQ.Features
             }
             catch (UnauthorizedAccessException unauthorizedEx)
             {
-                Print($"Access to the path is denied: {unauthorizedEx.Message}", DarkYellow);
+                Print($"Access to the path is denied:\n{unauthorizedEx.Message}", DarkYellow);
             }
             catch (Exception ex)
             {
