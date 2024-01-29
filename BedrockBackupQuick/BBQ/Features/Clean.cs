@@ -38,6 +38,7 @@ namespace BBQ.Features
                 (Path.Combine(Program.MinecraftPackageDirectory, "RoamingState"), "logs.txt|Log.txt")
             };
             await DeleteFileType(deleteList);
+            await DeleteSubfolders(Path.Combine(Program.LSPath, "premium_cache", "persona"));
             cleanTime.Stop();
 
             Print($"Finished in {cleanTime.Elapsed.Seconds}s");
