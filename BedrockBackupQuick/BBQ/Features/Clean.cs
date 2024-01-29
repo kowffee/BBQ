@@ -41,7 +41,8 @@ namespace BBQ.Features
             await DeleteSubfolders(Path.Combine(Program.LSPath, "premium_cache", "persona"));
             cleanTime.Stop();
 
-            Print($"Finished in {cleanTime.Elapsed.Seconds}s");
+            // If it finishes in under a second, display in miliseconds
+            Print(cleanTime.Elapsed.TotalSeconds < 1 ? $"Finished in {cleanTime.Elapsed.Milliseconds}ms" : $"Finished in {cleanTime.Elapsed.Seconds}s");
             UserInput("Done, you may now exit.", Green);
         }
     }
