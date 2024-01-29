@@ -36,7 +36,7 @@ namespace BBQ.Features
             await DeleteFileType(directoryPath, fileFormats);
             cleanTime.Stop();
 
-            Print($"Finished in {cleanTime.Elapsed.Seconds}");
+            Print($"Finished in {cleanTime.Elapsed.Seconds}s");
             UserInput("Done, you may now exit.", Green);
         }
     }
