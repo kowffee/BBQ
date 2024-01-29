@@ -35,8 +35,7 @@ namespace BBQ.Features
             string blobcachePath = Path.Combine(localCachePath, "blob_cache");
             var deleteList = new List<(string DirectoryPath, string FileFormats)>
             {
-                (blobcachePath, "*.*"),
-                (Path.Combine(localCachePath, "AchievementIcons"), "*.png|*.json|*.jpg")
+                (localCachePath, "*.*")
             };
             await DeleteFileType(deleteList);
             cleanTime.Stop();
