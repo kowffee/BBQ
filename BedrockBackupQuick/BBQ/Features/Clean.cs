@@ -32,7 +32,8 @@ namespace BBQ.Features
 
             Print("Beginning Cleanup, this may take a few minutes.", Yellow);
             Stopwatch cleanTime = Stopwatch.StartNew();
-            
+
+            #region Meat of the Clean
             var deleteList = new List<(string DirectoryPath, string FileFormats)>
             {
                 (localCachePath, "*.*"),
@@ -48,6 +49,7 @@ namespace BBQ.Features
             await DeleteSubfolders(Path.Combine(Program.LSPath, "premium_cache", "persona"));
             await DeleteSubfolders(Path.Combine(Program.LSPath, "treatments", "treatment_packs2")); // Switching versions sometimes causes UI bugs bc of treatments, deleting these fixes the UI issues
             cleanTime.Stop();
+            #endregion
 
             // If it finishes in under a second, display in miliseconds
             Print(cleanTime.Elapsed.TotalSeconds < 1 ? $"Finished in {cleanTime.Elapsed.Milliseconds}ms" : $"Finished in {cleanTime.Elapsed.Seconds}s");
