@@ -55,7 +55,7 @@ namespace BBQ.Features
             #endregion
 
             // If it finishes in under a second, display in miliseconds
-            Print(cleanTime.Elapsed.TotalSeconds < 1 ? $"Finished in {cleanTime.Elapsed.Milliseconds}ms" : $"Finished in {cleanTime.Elapsed.Seconds}s");
+            Print(cleanTime.Elapsed.TotalSeconds < 1 ? $"Finished in {cleanTime.Elapsed.Milliseconds}ms" : $"Finished in {cleanTime.Elapsed.Seconds}s", Yellow);
             UserInput("Done, you may now exit.", Green);
         }
     }
