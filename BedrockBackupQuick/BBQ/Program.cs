@@ -13,6 +13,7 @@ namespace BBQ
         static void Main(string[] args)
         {
             Print("Welcome to BedrockBackupQuick (BBQ)! This tool simplifies the process of importing and exporting your LocalState folder for Minecraft: Bedrock Edition.", Cyan);
+            Print($"LocalState path: {LSPath}", DarkYellow);
 
             if (!Files.CheckIfMcDirectoryExists())
             {
@@ -24,7 +25,7 @@ namespace BBQ
 
             while (true)
             {
-                string? choice = UserInput("Would you like to import or export?");
+                string? choice = UserInput("Type one of the following options: import/export/clean/");
                 switch (choice.ToLower())
                 {
                     case "import":
@@ -32,6 +33,9 @@ namespace BBQ
                         return;
                     case "export":
                         Features.Export.ExportBackup();
+                        return;
+                    case "clean":
+                        Features.Clean.Cleanup();
                         return;
                     default:
                         Print("Invalid choice. Please enter 'import' or 'export'.", Red);

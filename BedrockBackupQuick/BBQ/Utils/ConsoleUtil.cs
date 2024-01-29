@@ -14,12 +14,15 @@ namespace BBQ.Utils
             }
         }
 
-        internal static string? UserInput(string msg = "",  ConsoleColor color = White)
+        internal static string? UserInput(string msg = "",  ConsoleColor color = White, bool typeInSameLine = false)
         {
             lock (obj)
             {
                 Console.ForegroundColor = color;
-                Console.WriteLine(msg);
+                if (!typeInSameLine)
+                    Console.WriteLine(msg);
+                else
+                    Console.Write(msg);
                 return Console.ReadLine();
             }
         }
