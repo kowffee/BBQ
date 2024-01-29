@@ -13,7 +13,7 @@ namespace BBQ.Utils
             return false;
         }
 
-        internal static async Task DeleteFileType(List<(string DirectoryPath, string FileFormats)> directories)
+        internal static async Task DeleteFileType(List<(string DirectoryPath, string FileFormats)> directories, bool deleteInSubfolders = true)
         {
             try
             {
@@ -37,11 +37,11 @@ namespace BBQ.Utils
                         {
                             string[] formats = directory.FileFormats.Split('|');
 
-                            // Iterate through the directory and subdirectories
+                            SearchOption searchOption = deleteInSubfolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
                             Parallel.ForEach(formats, format =>
                             {
-                                // Use Directory.EnumerateFiles to get all files with the specified format
-                                var filesToDelete = Directory.EnumerateFiles(directory.DirectoryPath, format, SearchOption.AllDirectories);
+                                var filesToDelete = Directory.EnumerateFiles(directory.DirectoryPath, format, searchOption);
 
                                 Parallel.ForEach(filesToDelete, file =>
                                 {
@@ -69,6 +69,7 @@ namespace BBQ.Utils
                 Print($"An unexpected error occurred: {ex.Message}", Red);
             }
         }
+
 
         public static async Task DeleteSubfolders(string directoryPath)
         {

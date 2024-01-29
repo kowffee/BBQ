@@ -36,10 +36,17 @@ namespace BBQ.Features
             var deleteList = new List<(string DirectoryPath, string FileFormats)>
             {
                 (localCachePath, "*.*"),
-                (Path.Combine(Program.MinecraftPackageDirectory, "RoamingState"), "logs.txt|Log.txt")
+                (Path.Combine(Program.MinecraftPackageDirectory, "RoamingState"), "logs.txt|Log.txt"),
+                (Program.LSPath, "*.ent")
             };
-            await DeleteFileType(deleteList);
+            await DeleteFileType(deleteList);// Delete file types in the directory and its sub-folders
+            var deleteListSpecific = new List<(string DirectoryPath, string FileFormats)>
+            {
+                (Path.Combine(Program.LSPath, "games", "com.mojang"), "*.dat")
+            };
+            await DeleteFileType(deleteListSpecific, false);// Delete file types ONLY in the directory
             await DeleteSubfolders(Path.Combine(Program.LSPath, "premium_cache", "persona"));
+            await DeleteSubfolders(Path.Combine(Program.LSPath, "treatments", "treatment_packs2")); // Switching versions sometimes causes UI bugs bc of treatments, deleting these fixes the UI issues
             cleanTime.Stop();
 
             // If it finishes in under a second, display in miliseconds
