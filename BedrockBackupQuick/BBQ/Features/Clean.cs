@@ -9,6 +9,7 @@ namespace BBQ.Features
     {
         internal static async Task Cleanup()
         {
+            string localCachePath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe");
             bool choosing = true;
 
             while (choosing)
@@ -28,10 +29,10 @@ namespace BBQ.Features
                         break;
                 }
             }
+
             Print("Beginning Cleanup, this may take a few minutes.", Yellow);
             Stopwatch cleanTime = Stopwatch.StartNew();
-
-            string localCachePath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe");
+            
             var deleteList = new List<(string DirectoryPath, string FileFormats)>
             {
                 (localCachePath, "*.*"),
