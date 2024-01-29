@@ -32,10 +32,10 @@ namespace BBQ.Features
             Stopwatch cleanTime = Stopwatch.StartNew();
 
             string localCachePath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe");
-            string blobcachePath = Path.Combine(localCachePath, "blob_cache");
             var deleteList = new List<(string DirectoryPath, string FileFormats)>
             {
-                (localCachePath, "*.*")
+                (localCachePath, "*.*"),
+                (Path.Combine(Program.MinecraftPackageDirectory, "RoamingState"), "logs.txt|Log.txt")
             };
             await DeleteFileType(deleteList);
             cleanTime.Stop();
