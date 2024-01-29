@@ -13,53 +13,55 @@ namespace BBQ.Utils
             return false;
         }
 
-        internal static async Task DeleteFileType(string directoryPath, string fileFormats)
+        internal static async Task DeleteFileType(List<(string DirectoryPath, string FileFormats)> directories)
         {
             try
             {
                 await Task.Run(() =>
                 {
-                    if (!Directory.Exists(directoryPath))
+                    Parallel.ForEach(directories, directory =>
                     {
-                        Print($"Directory does not exist: {directoryPath}", Red);
-                        return;
-                    }
-
-                    if (string.IsNullOrWhiteSpace(fileFormats))
-                    {
-                        Print("Invalid file format.", Red);
-                        return;
-                    }
-
-                    try
-                    {
-                        // Split file formats and create an array
-                        string[] formats = fileFormats.Split('|');
-
-                        // Iterate through the directory and subdirectories
-                        foreach (string format in formats)
+                        if (!Directory.Exists(directory.DirectoryPath))
                         {
-                            // Use Directory.EnumerateFiles to get all files with the specified format
-                            var filesToDelete = Directory.EnumerateFiles(directoryPath, format, SearchOption.AllDirectories);
-
-                            // Delete each file
-                            foreach (var file in filesToDelete)
-                            {
-                                try
-                                {
-                                    File.Delete(file);
-                                }
-                                catch (Exception ex)
-                                {
-                                    Print($"Error deleting file {file}: {ex.Message}", Red);
-                                }
-                            }
+                            Print($"Directory does not exist: {directory.DirectoryPath}", Red);
+                            return;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Print($"An error occurred while processing files: {ex.Message}", Red);
-                    }
+
+                        if (string.IsNullOrWhiteSpace(directory.FileFormats))
+                        {
+                            Print($"Invalid file formats for directory {directory.DirectoryPath}.", Red);
+                            return;
+                        }
+
+                        try
+                        {
+                            string[] formats = directory.FileFormats.Split('|');
+
+                            // Iterate through the directory and subdirectories
+                            Parallel.ForEach(formats, format =>
+                            {
+                                // Use Directory.EnumerateFiles to get all files with the specified format
+                                var filesToDelete = Directory.EnumerateFiles(directory.DirectoryPath, format, SearchOption.AllDirectories);
+
+                                Parallel.ForEach(filesToDelete, file =>
+                                {
+                                    try
+                                    {
+                                        File.Delete(file);
+                                        Print($"Deleted: {file}", Yellow);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Print($"Error deleting file {file}: {ex.Message}", Red);
+                                    }
+                                });
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            Print($"An error occurred while processing files in directory {directory.DirectoryPath}: {ex.Message}", Red);
+                        }
+                    });
                 });
             }
             catch (Exception ex)

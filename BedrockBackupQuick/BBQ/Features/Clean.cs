@@ -31,9 +31,14 @@ namespace BBQ.Features
             Print("Beginning Cleanup, this may take a few minutes.", Yellow);
             Stopwatch cleanTime = Stopwatch.StartNew();
 
-            string directoryPath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe", "blob_cache");
-            string fileFormats = "*.ldb";
-            await DeleteFileType(directoryPath, fileFormats);
+            string localCachePath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe");
+            string blobcachePath = Path.Combine(localCachePath, "blob_cache");
+            var deleteList = new List<(string DirectoryPath, string FileFormats)>
+            {
+                (blobcachePath, "*.*"),
+                (Path.Combine(localCachePath, "AchievementIcons"), "*.png|*.json|*.jpg")
+            };
+            await DeleteFileType(deleteList);
             cleanTime.Stop();
 
             Print($"Finished in {cleanTime.Elapsed.Seconds}s");
