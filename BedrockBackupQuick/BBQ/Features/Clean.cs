@@ -39,7 +39,8 @@ namespace BBQ.Features
                 (localCachePath, "*.*"),
                 (Path.Combine(Program.MinecraftPackageDirectory, "RoamingState"), "logs.txt|Log.txt"),
                 (Program.LSPath, "*.ent|telemetry_info.json|invalid_known_packs.json"),
-                (Path.Combine(Program.MinecraftPackageDirectory, "AC", "CrashDumps"), "*.dmp") // These are normally 35mb+
+                (Path.Combine(Program.MinecraftPackageDirectory, "AC", "CrashDumps"), "*.dmp"), // These are normally 35mb+
+                (Path.Combine(Program.LSPath, "treatments", "treatment_packs2"), "*.json")
             };
             await DeleteFileType(deleteList);// Delete file types in the directory and its sub-folders
             var deleteListSpecific = new List<(string DirectoryPath, string FileFormats)>
