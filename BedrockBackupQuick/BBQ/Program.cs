@@ -10,7 +10,7 @@ namespace BBQ
         internal static string LSPath = Path.Combine(MinecraftPackageDirectory, "LocalState");
         internal static string AppDir = AppDomain.CurrentDomain.BaseDirectory;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Print("Welcome to BedrockBackupQuick (BBQ)! This tool simplifies the process of importing and exporting your LocalState folder for Minecraft: Bedrock Edition.", Cyan);
             Print($"LocalState path: {LSPath}", DarkYellow);
@@ -35,7 +35,7 @@ namespace BBQ
                         Features.Export.ExportBackup();
                         return;
                     case "clean":
-                        Features.Clean.Cleanup();
+                        await Features.Clean.Cleanup();
                         return;
                     default:
                         Print("Invalid choice. Please enter 'import' or 'export'.", Red);

@@ -1,11 +1,13 @@
-﻿using static System.ConsoleColor;
+﻿using System.Diagnostics;
+using static System.ConsoleColor;
 using static BBQ.Utils.ConsoleUtil;
+using static BBQ.Utils.Files;
 
 namespace BBQ.Features
 {
     internal class Clean
     {
-        internal static void Cleanup()
+        internal static async Task Cleanup()
         {
             bool choosing = true;
 
@@ -26,9 +28,15 @@ namespace BBQ.Features
                         break;
                 }
             }
+            Print("Beginning Cleanup, this may take a few minutes.", Yellow);
+            Stopwatch cleanTime = Stopwatch.StartNew();
 
+            string directoryPath = Path.Combine(Program.MinecraftPackageDirectory, "LocalCache", "minecraftpe", "blob_cache");
+            string fileFormats = "*.ldb";
+            await DeleteFileType(directoryPath, fileFormats);
+            cleanTime.Stop();
 
-
+            Print($"Finished in {cleanTime.Elapsed.Seconds}");
             UserInput("Done, you may now exit.", Green);
         }
     }
