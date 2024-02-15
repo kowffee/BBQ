@@ -71,7 +71,7 @@ namespace BBQ.Utils
         }
 
 
-        public static async Task DeleteSubfolders(string directoryPath)
+        internal static async Task DeleteSubfolders(string directoryPath)
         {
             try
             {
